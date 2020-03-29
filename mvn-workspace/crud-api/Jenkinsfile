@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage ('Clone Repository') {
+            steps {
+				bat "rd /s /q jenkins-training"
+                bat "git clone https://github.com/rzdp/jenkins-training.git"
+            }
+        }
+        stage ('Clean Project') {
+            steps {
+                bat "mvn clean -f jenkins-training/mvn-workspace/crud-api"
+            }
+        }
+        stage ('Test Project') {
+            steps {
+                bat "mvn test -f jenkins-training/mvn-workspace/crud-api"
+            }
+        }
+        stage ('Build Project') {
+            steps {
+                bat "mvn package -f jenkins-training/mvn-workspace/crud-api"
+            }
+        }
+    }
+}
